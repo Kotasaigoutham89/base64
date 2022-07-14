@@ -7,32 +7,33 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Button from '@mui/material/Button';
+import Switch from '@mui/material/Switch'
 import { useState } from 'react';
 
 function App() {
   const [category, setCategory] = useState("decode")
-  const [code,setCode]= useState("")
-  const [result,setResult]= useState("")
-  const handlecategory=(e)=>{
+  const [code, setCode] = useState("")
+  const [result, setResult] = useState("")
+  const [toggle, setToggle] = useState(false)
+  const handlecategory = (e) => {
     setCategory(e.target.value)
     setCode("")
     setResult("")
   }
-  const handlebutton =()=>{
+  const handlebutton = () => {
+    console.log(toggle)
     console.log(category)
-    if(category=="decode")
-    {
-    const change = atob(code)
-    setResult(change)
+    if (category == "decode") {
+      const change = atob(code)
+      setResult(change)
     }
-    if(category=="encode")
-    {
-    const change = btoa(code)
-    setResult(change)
+    if (category == "encode") {
+      const change = btoa(code)
+      setResult(change)
     }
   }
   return (
-    <div className="App">
+    <div className="App" style={{ background: toggle ? "linear-gradient(45deg, #FBDA61 0%, #FF5ACD 100%)" : "" }}>
       <div className="navbar">
         <div className='flex-row'>
           <img src={decode} width="75px" height="75px" />
@@ -51,6 +52,9 @@ function App() {
           </FormControl>
         </div>
         <div />
+        <div>
+          <FormControlLabel label= { toggle ? "Color mode" : "Light mode"} control={<Switch checked={toggle} onChange={() => setToggle(!toggle)} />}/>
+        </div>
       </div>
       <div className='centering'>
         <div className='flex-column input-field'>
@@ -61,21 +65,21 @@ function App() {
             rows={4}
             placeholder="type or paste the code"
             value={code}
-            onChange={(e)=>setCode(e.target.value)}
+            onChange={(e) => setCode(e.target.value)}
           />
         </div>
         <div>
           <Button variant="contained" onClick={handlebutton}>{category == "decode" ? "decode" : "encode"}</Button>
         </div>
         <div className='flex-column input-field'>
-          <div  className="input-title">Result</div>
+          <div className="input-title">Result</div>
           <TextField
             id="outlined-multiline-static"
             multiline
             rows={4}
             placeholder="result"
             value={result}
-            onChange={(e)=>setResult(e.target.value)}
+            onChange={(e) => setResult(e.target.value)}
           />
         </div>
       </div>
